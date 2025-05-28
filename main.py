@@ -154,13 +154,13 @@ class MainWindow(tk.Tk):
         self.refresh_vms()
 
     def _setup_ui(self):
-        self.tree = ttk.Treeview(self, columns=('Name', 'State'), show='tree headings')
+        self.tree = ttk.Treeview(self, columns=('name', 'state'), show='tree headings')
         self.tree.heading('name', text='Nombre VM')
         self.tree.heading('state', text='Estado VM')
         self.tree.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
         btn_frame = ttk.Frame(self)
-        btn_frame.pack(side=tk.RIGHT, fill=tk.BOTH, padx=(20, 20), pady=20)
+        btn_frame.pack(side=tk.LEFT, fill=tk.BOTH, padx=(0, 10), pady=10)
 
         style = ttk.Style()
         style.theme_use('clam')  # Asegura soporte para estilos personalizados
@@ -168,7 +168,7 @@ class MainWindow(tk.Tk):
             "Rounded.TButton",
             borderwidth=0,
             relief="flat",
-            padding=10,
+            padding=20,
             font=('Segoe UI', 10, 'bold'),
             background="#f9f6ee",  # blanco hueso
             foreground="#333"
