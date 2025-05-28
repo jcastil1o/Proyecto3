@@ -163,18 +163,23 @@ class MainWindow(tk.Tk):
         btn_frame.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 20), pady=20)
 
         style = ttk.Style()
-        style.configure("Rounded.TButton", 
-                borderwidth=0, 
-                relief="flat", 
-                padding=10,
-                font=('Segoe UI', 10, 'bold'))
-        # Para bordes redondeados, requiere tema compatible (clam, alt, etc.)
-        style.map("Rounded.TButton",
-              relief=[('pressed', 'flat'), ('active', 'flat')],
-              background=[('active', '#7fd47f'), ('!active', '#59ac4e')],
-              foreground=[('active', 'white'), ('!active', 'white')])
+        style.theme_use('clam')  # Asegura soporte para estilos personalizados
+        style.configure(
+            "Rounded.TButton",
+            borderwidth=0,
+            relief="flat",
+            padding=10,
+            font=('Segoe UI', 10, 'bold'),
+            background="#f9f6ee",  # blanco hueso
+            foreground="#333"
+        )
+        style.map(
+            "Rounded.TButton",
+            relief=[('pressed', 'flat'), ('active', 'flat')],
+            background=[('active', '#f9f6ee'), ('!active', '#f9f6ee')],
+            foreground=[('active', '#333'), ('!active', '#333')]
+        )
 
-        # Hack para redondear: usar canvas como fondo y botones encima
         for text, cmd in (
             ('Actualizar', self.refresh_vms),
             ('Iniciar VM', self.start_selected),
