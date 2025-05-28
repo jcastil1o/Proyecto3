@@ -149,7 +149,7 @@ class MainWindow(tk.Tk):
         self.title("Cliente de Virtualización - Gestor de Máquinas Virtuales")
         self.geometry('1200x800')
         self.vm_manager = VMManager()
-        self.configure(backgroud="#59ac4e")
+        self.configure(bg="#59ac4e")
         self._setup_ui()
         self.refresh_vms()
 
