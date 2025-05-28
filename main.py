@@ -149,7 +149,7 @@ class MainWindow(tk.Tk):
         self.title("Cliente de Virtualización - Gestor de Máquinas Virtuales")
         self.geometry('1200x800')
         self.vm_manager = VMManager()
-        self.configure(bg="#59ac4e")
+        self.configure(backgroud="#59ac4e")
         self._setup_ui()
         self.refresh_vms()
 
@@ -209,15 +209,8 @@ class MainWindow(tk.Tk):
         if not name:
             return
         memory = simpledialog.askinteger('Memory', 'RAM:', minvalue=128, maxvalue=65536)
-        if memory is None:
-            return
         cpus = simpledialog.askinteger('vCPU', 'Virtual CPUs:', minvalue=1, maxvalue=16)
-        if cpus is None:
-            return
         disk = simpledialog.askinteger('Disk', 'Espacio Disco:', minvalue=1, maxvalue=200)
-        if disk is None:
-            return
-
         pools = self.vm_manager.list_pools()
         if not pools:
             self.vm_manager.create_pool()
