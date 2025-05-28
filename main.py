@@ -146,9 +146,10 @@ class VMManager:
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Libvirt VM Manager")
-        self.geometry('600x500')
+        self.title("Cliente de Virtualización - Gestor de Máquinas Virtuales")
+        self.geometry('1200x800')
         self.vm_manager = VMManager()
+        self.configure(bg="#59ac4e")
         self._setup_ui()
         self.refresh_vms()
 
@@ -161,13 +162,13 @@ class MainWindow(tk.Tk):
         btn_frame = ttk.Frame(self)
         btn_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
         for text, cmd in (
-            ('Refresh', self.refresh_vms),
-            ('Start VM', self.start_selected),
-            ('Shutdown VM', self.shutdown_selected),
-            ('Force Off', self.force_shutdown_selected),
-            ('Create VM', self.create_dialog)
+            ('Actualizar', self.refresh_vms),
+            ('Iniciar VM', self.start_selected),
+            ('Apagar VM', self.shutdown_selected),
+            ('Forzar Apagado', self.force_shutdown_selected),
+            ('Crear VM', self.create_dialog)
         ):
-            ttk.Button(btn_frame, text=text, command=cmd).pack(side=tk.LEFT, padx=5)
+            ttk.Button(btn_frame, text=text, command=cmd).pack(side=tk.LEFT, padx=(0, 5))
 
     def refresh_vms(self):
         for i in self.tree.get_children():
@@ -178,7 +179,7 @@ class MainWindow(tk.Tk):
     def _action(self, action, force=False):
         sel = self.tree.selection()
         if not sel:
-            messagebox.showinfo('Info', 'Select a VM first')
+            messagebox.showinfo('Info', 'Seleccionar una VM')
             return
         name = self.tree.item(sel[0], 'values')[0]
         try:
@@ -187,7 +188,7 @@ class MainWindow(tk.Tk):
             else:
                 success = self.vm_manager.shutdown_vm(name, force=force)
             if not success:
-                raise RuntimeError(f"{action} failed for {name}")
+                raise RuntimeError(f"{action} error en {name}")
         except Exception as e:
             messagebox.showerror('Error', str(e))
         finally:
@@ -200,20 +201,20 @@ class MainWindow(tk.Tk):
         self._action('shutdown', force=False)
 
     def force_shutdown_selected(self):
-        if messagebox.askyesno('Confirm', 'Force power off?'):
+        if messagebox.askyesno('Confirmar', 'Forzar apagado?'):
             self._action('shutdown', force=True)
 
     def create_dialog(self):
-        name = simpledialog.askstring('Name', 'VM name:')
+        name = simpledialog.askstring('Name', 'VM nombre:')
         if not name:
             return
-        memory = simpledialog.askinteger('Memory', 'MiB RAM:', minvalue=128, maxvalue=65536)
+        memory = simpledialog.askinteger('Memory', 'RAM:', minvalue=128, maxvalue=65536)
         if memory is None:
             return
-        cpus = simpledialog.askinteger('vCPU', 'vCPUs:', minvalue=1, maxvalue=16)
+        cpus = simpledialog.askinteger('vCPU', 'Virtual CPUs:', minvalue=1, maxvalue=16)
         if cpus is None:
             return
-        disk = simpledialog.askinteger('Disk', 'Disk GiB:', minvalue=1, maxvalue=200)
+        disk = simpledialog.askinteger('Disk', 'Espacio Disco:', minvalue=1, maxvalue=200)
         if disk is None:
             return
 
@@ -222,11 +223,11 @@ class MainWindow(tk.Tk):
             self.vm_manager.create_pool()
             pools = self.vm_manager.list_pools()
 
-        pool = simpledialog.askstring('Pool', f"Storage pool? {pools}", initialvalue=pools[0])
+        pool = simpledialog.askstring('Pool', f"Almacenamiento de memoria? {pools}", initialvalue=pools[0])
         if not pool:
             return
 
-        iso = filedialog.askopenfilename(title='Select ISO', filetypes=[('ISO files', '*.iso')])
+        iso = filedialog.askopenfilename(title='Seleccionar ISO', filetypes=[('ISO files', '*.iso')])
 
         try:
             self.vm_manager.create_vm(
