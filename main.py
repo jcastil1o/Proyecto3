@@ -160,7 +160,21 @@ class MainWindow(tk.Tk):
         self.tree.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         btn_frame = ttk.Frame(self)
-        btn_frame.pack(fill=tk.X, padx=10, pady=(100, 10))
+        btn_frame.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 20), pady=20)
+
+        style = ttk.Style()
+        style.configure("Rounded.TButton", 
+                borderwidth=0, 
+                relief="flat", 
+                padding=10,
+                font=('Segoe UI', 10, 'bold'))
+        # Para bordes redondeados, requiere tema compatible (clam, alt, etc.)
+        style.map("Rounded.TButton",
+              relief=[('pressed', 'flat'), ('active', 'flat')],
+              background=[('active', '#7fd47f'), ('!active', '#59ac4e')],
+              foreground=[('active', 'white'), ('!active', 'white')])
+
+        # Hack para redondear: usar canvas como fondo y botones encima
         for text, cmd in (
             ('Actualizar', self.refresh_vms),
             ('Iniciar VM', self.start_selected),
@@ -168,7 +182,8 @@ class MainWindow(tk.Tk):
             ('Forzar Apagado', self.force_shutdown_selected),
             ('Crear VM', self.create_dialog)
         ):
-            ttk.Button(btn_frame, text=text, command=cmd).pack(side=tk.LEFT, padx=(0, 5))
+            btn = ttk.Button(btn_frame, text=text, command=cmd, style="Rounded.TButton")
+            btn.pack(fill=tk.X, pady=8, ipadx=10, ipady=6)
 
     def refresh_vms(self):
         for i in self.tree.get_children():
