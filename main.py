@@ -154,13 +154,13 @@ class MainWindow(tk.Tk):
         self.refresh_vms()
 
     def _setup_ui(self):
-        self.tree = ttk.Treeview(self, columns=('name', 'state'), show='headings')
-        self.tree.heading('name', text='Name')
-        self.tree.heading('state', text='State')
-        self.tree.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.tree = ttk.Treeview(self, columns=('Name', 'State'), show='tree headings')
+        self.tree.heading('name', text='Nombre VM')
+        self.tree.heading('state', text='Estado VM')
+        self.tree.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
         btn_frame = ttk.Frame(self)
-        btn_frame.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 20), pady=20)
+        btn_frame.pack(side=tk.RIGHT, fill=tk.BOTH, padx=(20, 20), pady=20)
 
         style = ttk.Style()
         style.theme_use('clam')  # Asegura soporte para estilos personalizados
