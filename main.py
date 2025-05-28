@@ -160,7 +160,7 @@ class MainWindow(tk.Tk):
         self.tree.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         btn_frame = ttk.Frame(self)
-        btn_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
+        btn_frame.pack(fill=tk.X, padx=10, pady=(100, 10))
         for text, cmd in (
             ('Actualizar', self.refresh_vms),
             ('Iniciar VM', self.start_selected),
